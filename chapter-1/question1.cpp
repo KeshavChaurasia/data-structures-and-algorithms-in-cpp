@@ -6,9 +6,9 @@ private:
 	int num;
 	int den;
 public:
-	Fraction(int num, int den){
-		num = num;
-		den = den;
+	Fraction(int numerator, int denominator){
+		num = numerator;
+		den = denominator;
 	}
 
 	Fraction(){
@@ -23,10 +23,10 @@ public:
 	int getDen(){
 		return den;
 	}
-}
+};
 int main(){
 	Fraction frac(2,3);
 	std::cout << frac.getNum() << std::endl;
 	std::cout << frac.getDen() << std::endl;
- 	return 0
-}
+ 	return 0;
+};
