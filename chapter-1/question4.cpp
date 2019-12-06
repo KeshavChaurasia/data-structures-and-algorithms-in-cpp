@@ -1,4 +1,4 @@
-// Implement the remaining simple arithmetic operators (-, *, and /).
+// Implement the remaining relational operators (>, >=, <, <=, and !=)
 //
 #include<iostream>
 using namespace std;
@@ -26,41 +26,55 @@ class Fraction{
 			num = 1;
 			den = 1;
 		}
-
 		friend Fraction operator + (const Fraction &frac, const Fraction &other_frac);
 		friend Fraction operator - (const Fraction &frac, const Fraction &other_frac);
 		friend Fraction operator * (const Fraction &frac, const Fraction &other_frac);
 		friend Fraction operator / (const Fraction &frac, const Fraction &other_frac);
+		friend bool operator < (const Fraction &frac, const Fraction &other_frac);
+		friend bool operator > (const Fraction &frac, const Fraction &other_frac);
+		friend bool operator == (const Fraction &frac, const Fraction &other_frac);
+		friend bool operator <= (const Fraction &frac, const Fraction &other_frac);
+		friend bool operator >= (const Fraction &frac, const Fraction &other_frac);
+		friend bool operator != (const Fraction &frac, const Fraction &other_frac);
 		friend ostream &operator << (ostream &out, const Fraction &f);
-		
 };
 Fraction operator + (const Fraction &frac, const Fraction &other_frac){
 	int temp_num = frac.num*other_frac.den + other_frac.num*frac.den;
 	int temp_den = frac.den * other_frac.den;
 	return Fraction(temp_num,temp_den);
-
-	
 };
 Fraction operator - (const Fraction &frac, const Fraction &other_frac){
         int temp_num = frac.num*other_frac.den - other_frac.num*frac.den;
         int temp_den = frac.den * other_frac.den;
         return Fraction(temp_num,temp_den);
-
-
 };
 Fraction operator * (const Fraction &frac, const Fraction &other_frac){
         int temp_num = frac.num * other_frac.num;
         int temp_den = frac.den * other_frac.den;
         return Fraction(temp_num,temp_den);
-
-
 };
 Fraction operator / (const Fraction &frac, const Fraction &other_frac){
         int temp_num = frac.num * other_frac.den;
         int temp_den = frac.den * other_frac.num;
         return Fraction(temp_num,temp_den);
-
-
+};
+bool operator == (const Fraction &frac, const Fraction &other_frac){
+	return (frac.num*other_frac.den == other_frac.num*frac.den);
+};
+bool operator != (const Fraction &frac, const Fraction &other_frac){
+	return (frac.num*other_frac.den != other_frac.num*frac.den);
+};
+bool operator < (const Fraction &frac, const Fraction &other_frac){
+	return (frac.num*other_frac.den < other_frac.num*frac.den);
+};
+bool operator > (const Fraction &frac, const Fraction &other_frac){
+	return (frac.num*other_frac.den > other_frac.num*frac.den);
+};
+bool operator <= (const Fraction &frac, const Fraction &other_frac){
+	return (frac.num*other_frac.den <= other_frac.num*frac.den);
+};
+bool operator >= (const Fraction &frac, const Fraction &other_frac){
+	return (frac.num*other_frac.den >= other_frac.num*frac.den);
 };
 
 ostream &operator << (ostream &out, const Fraction &f){
@@ -80,15 +94,18 @@ ostream &operator << (ostream &out, const Fraction &f){
 };
 
 int main(){
-	Fraction frac1(10,15);
+	Fraction frac1(5,15);
 	Fraction frac2(10,15);
 	cout << "frac1: " << frac1 << endl;
 	cout << "frac2: " << frac2 << endl;
 	cout << "sum: " << frac1+frac2 << endl;
 	cout << "difference: " << frac1-frac2 << endl;
 	cout << "division: " << frac1/frac2 << endl;
-	cout << "product: " << frac1*frac2 << endl;
-	
-	//cout << gcd(10,15) << endl;
+	cout << "=: " << (frac1 == frac2) << endl;
+	cout << "!=: " << (frac1 != frac2) << endl;
+	cout << "<: " << (frac1 < frac2) << endl;
+	cout << ">: " << (frac1 > frac2) << endl;
+	cout << "<=: " << (frac1 <= frac2) << endl;
+	cout << ">=: " << (frac1 >= frac2) << endl;
 	return 0;
 }
