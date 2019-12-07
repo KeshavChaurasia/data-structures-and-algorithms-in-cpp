@@ -22,6 +22,9 @@ class LogicGate {
 		virtual bool performGateLogic(){
 			return false;
 		};
+		virtual void setNextPin(bool source){
+		}
+
 };
 
 class BinaryGate  : public LogicGate {
@@ -52,6 +55,16 @@ class BinaryGate  : public LogicGate {
 			 }
 			 return pinB;
 		 }
+		 virtual void  setNextPin(bool source){
+		 	if(!pinATaken){
+				pinA = source;
+				this->pinATaken = true;
+			}
+			else if(!pinBTaken){
+				pinB = source;
+				this->pinBTaken = true;
+			}
+		 }
 };
 class UnaryGate : public LogicGate {
 	protected:
@@ -69,6 +82,13 @@ class UnaryGate : public LogicGate {
 			}
 			return pin;
 		}
+		virtual void setNextPin(bool source){
+			if(!pinTaken){
+				pin = source;
+				this->pinTaken = true; 
+			}
+		}
+
 };
 class AndGate : public BinaryGate {
 	public:
@@ -99,12 +119,77 @@ class NotGate : public UnaryGate {
 			return !getPin();
 		}
 };
+class NandGate : public BinaryGate {
+	public:
+		NandGate(string n): BinaryGate(n){};
+		virtual bool performGateLogic(){
+			bool a = getPinA();
+			bool b = getPinB();
+			if(a==1 && b == 1)
+				return false;
+			return true;
+		}
+};
+class NorGate : public BinaryGate {
+	public:
+		NorGate(string n): BinaryGate(n){};
+		virtual bool performGateLogic(){
+			bool a = getPinA();
+			bool b = getPinB();
+			if(a==1 || b==1)
+				return false;
+			return true;
+		}
+};
+class XorGate: public BinaryGate {
+	public:
+		XorGate(string n): BinaryGate(n){};
+		virtual bool performGateLogic(){
+			bool a = getPinA();
+			bool b = getPinB();
+			if((a == 1 && b == 0) || (a==0 && b == 1))
+				return 	true;
+			return false;
+		}
+};
+class Connector{
+	private:
+		LogicGate *fromgate;
+		LogicGate *togate;
+	public:
+		Connector(LogicGate *fgate, LogicGate *tgate){
+			fromgate = fgate;
+			togate = tgate;
+			tgate->setNextPin(fromgate->getOutput());
+		}
+		LogicGate *getFrom(){
+			return fromgate;
+		}
+		LogicGate *getTo(){
+			return togate;
+		}
+};
 int main(){
 	AndGate gand1("gand1");
+	AndGate gand2("gand2");
 	OrGate gor1("gor1");
 	NotGate gnot1("gnot1");
-	cout << gand1.getOutput() << endl;
-	cout << gor1.getOutput() << endl;
-	cout << gnot1.getOutput() << endl;
+	NandGate gnand1("gnand1");
+	NorGate gnor1("gnor1");
+	XorGate gxor1("gxor1");
+	
+
+	Connector c1(&gand1,&gor1);
+	Connector c2(&gand2,&gor1);
+	Connector c3(&gor1, &gnot1);
+
+	cout << gnot1.getOutput() << endl ;
+
+	//cout << gand1.getOutput() << endl;
+	//cout << gor1.getOutput() << endl;
+	//cout << gnot1.getOutput() << endl;
+	//cout << gnand1.getOutput() << endl;
+	//cout << gnor1.getOutput() << endl;
+	//cout << gxor1.getOutput() << endl;
 	return 0;
 }
