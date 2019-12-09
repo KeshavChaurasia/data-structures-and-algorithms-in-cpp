@@ -14,8 +14,8 @@ bool findUnassignedLocation(int grid[N][N], int &row, int &col){
 		}
 	}
 	return false;
-
 }
+
 bool isUsedInRow(int grid[N][N], int row, int num){
 	for(int col=0;col<N;col++){
 		if(grid[row][col]==num){
@@ -29,7 +29,6 @@ bool isUsedInCol(int grid[N][N], int col, int num){
 		if(grid[row][col]==num){
 			return true;
 		}
-
 	}
 	return false;
 }
@@ -72,10 +71,15 @@ bool solveSudoku(int grid[N][N]){
 		// check if the number has conflict at row col
 		if(isNumSafe(grid,row, col, num)){
 			grid[row][col]=num;
-	
-			if(solveSudoku(grid)==true)
+			
+			//cout << "##### next step ######" << endl ;
+			//printGrid(grid);
+			//cout << endl;
+
+			if(solveSudoku(grid))
 				return true;
-			grid[row][col]==UNDEFINED;
+
+			grid[row][col]=UNDEFINED;
 		}
 	}
 	return false;
@@ -83,14 +87,14 @@ bool solveSudoku(int grid[N][N]){
 int main(){
 	int grid[N][N] = 
 		{{3, 0, 6, 5, 0, 8, 4, 0, 0},  
-                 {5, 2, 0, 0, 0, 0, 0, 0, 0},  
-                 {0, 8, 7, 0, 0, 0, 0, 3, 1},  
-                 {0, 0, 3, 0, 1, 0, 0, 8, 0},  
-                 {9, 0, 0, 8, 6, 3, 0, 0, 5},  
-                 {0, 5, 0, 0, 9, 0, 6, 0, 0}, 
-		 {1, 3, 0, 0, 0, 0, 2, 5, 0}, 
-		 {0, 0, 0, 0, 0, 0, 0, 7, 4},  
-		 {0, 0, 5, 2, 0, 6, 3, 0, 0}};
+        {5, 2, 0, 0, 0, 0, 0, 0, 0},  
+        {0, 8, 7, 0, 0, 0, 0, 3, 1},  
+        {0, 0, 3, 0, 1, 0, 0, 8, 0},  
+        {9, 0, 0, 8, 6, 3, 0, 0, 5},  
+        {0, 5, 0, 0, 9, 0, 6, 0, 0}, 
+		{1, 3, 0, 0, 0, 0, 2, 5, 0}, 
+		{0, 0, 0, 0, 0, 0, 0, 7, 4},  
+		{0, 0, 5, 2, 0, 6, 3, 0, 0}};
 	if(solveSudoku(grid)==true){
 		printGrid(grid); 
 	}
